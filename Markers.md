@@ -1,5 +1,3 @@
-## Markers
-
 > The framework adds several new marker types geared towards dynamic data visualization.  See the [Markers](http://humangeo.github.com/leaflet-dvf/examples/html/markers.html) example for an illustration of each of these markers.
 
 ### L.MapMarker
