@@ -1,0 +1,182 @@
+> Datalayers support loading and displaying data from any JSON-based object/collection regardless of structure
+
+### L.DataLayer
+
+> Display data values using L.RegularPolygonMarker instances.  In thematic mapping, this class displays data using proportional symbols.  
+>
+> *NOTE:  If the location features are lines/polygons (e.g. GeoJSON), this class will use the centroid of each line/polygon to place each marker.  When dealing with line/polygon features, you must include a reference to the [JavaScript Topology Suite (JSTS) JS files](https://github.com/bjornharrtell/jsts/tree/master/lib).  These files are used to calculate centroids.  If these files are not included, the DataLayer class will fallback to using the center of the bounds of the layer's geometry.*
+
+#### Usage
+`L.DataLayer(<Object> data, <DataLayer options> options?);`
+
+#### Options
+Option | Type | Default | Description
+--- | --- | --- | ---
+recordsField | String | 'features' | A pointer to the field in the input data that contains the records to be visualized.  Use null when the data being passed in is the set of records to be visualized.  Use dot notation to specify child properties (e.g. data.election.resultsByState), see note below.
+locationMode | String | 'latlng' OR L.LocationModes.LATLNG | The mode used to determine a location for each record.  Use a string or the *L.LocationModes* constant values 
+latitudeField | String | 'coordinates.1' | The property of each record that contains the latitude *NOTE: Use with 'latlng' locationMode*
+longitudeField | String | 'coordinates.0' | The property of each record that contains the longitude *NOTE: Use with 'latlng' locationMode*
+codeField | String | null | The property of each record that contains the code used to lookup a location *NOTE: Use with 'state', 'country', or 'lookup' locationMode values*
+geohashField | String | null | The property of each record that contains the geohash used to determine a location *NOTE: Use with 'geohash' locationMode values*
+layerOptions | Object | null | Default style - An object containing Leaflet L.Path style properties that will be used as the default style for DataLayer markers/polygons.  These properties will be overridden by the displayOptions.
+displayOptions | Object | null | Dynamic styles - An object containing pointers to one or property values of each record with associated L.Path style properties and LinearFunction objects
+tooltipOptions | Object | null | Options used to configure the tooltips that are displayed on mouseover (iconSize and iconAnchor)
+onEachRecord | Function | null | A function that performs additional operations (e.g. binding a popup) on a created layer based on the record associated with that layer (similar to the L.GeoJSON onEachFeature method
+includeLayer | Function | null | A function for determining whether or not the layer for a given record should be added to the map.
+getLocation | Function | null | A function for getting a custom location from a record (e.g. looking up an address) *NOTE: Use with 'custom' locationMode value*
+locationLookup | Object (GeoJSON FeatureCollection) | null | A GeoJSON FeatureCollection that will be used to lookup the location associated with a given record. This is useful when you have some data that maps to political/statistical boundaries other than US states or countries.  *NOTE: Use with 'lookup locationMode*
+includeBoundary | Boolean | null | true/false - whether or not the boundary polygon should be displayed when displaying proportional symbols.  This is useful for identifying the boundary associated with each symbol.
+
+#### Referencing Data Properties
+
+Use dot notation to reference items in the passed in data object.  This applies to all field options (e.g. recordsField) as well as displayOptions.
+
+Given an object like:
+
+```javascript
+{
+	data: {
+		values: [
+			{
+				property1: 1,
+				property2: 'akdfljlkfds',
+				property3: 234,
+				location: [-1.234324, 13.123213],
+				additional: {
+					property1: 2,
+					property2: 56
+				}
+			},
+			...
+			{
+				property1: 34,
+				property2: 'werewrwer',
+				property3: 56,
+				location: [5.435444, 8.999345],
+				additional: {
+					property1: 88,
+					property2: 3
+				}
+			}
+		]
+	}
+}
+```
+
+You might specify the following options:
+
+```javascript
+{
+	recordsField: 'data.values',
+	locationMode: L.LocationModes.LATLNG,
+	latitudeField: 'location.1'  // Points to the second item in the location array
+	longitudeField: 'location.0' // Points to the first item in the location array,
+	displayOptions: {
+		'additional.property1': {
+			... // See displayOptions below
+		}
+	}
+}
+```
+
+#### displayOptions
+
+> The *displayOptions* option is used to define how data properties are dynamically mapped to display styles. It's a JavaScript object of key/value pairs that follows the pattern:
+
+```javascript
+{
+	<reference to data property 1>: {
+		displayName: <Human-readable text describing this property>,
+		displayText: <Function for converting the value of this property to a human-readable value>,
+		// Leaflet L.Path style properties with static values or L.LinearFunction instances
+		// or just functions for dynamic mapping
+		color:  <Color function or basic function (e.g. L.HSLHueFunction)>,
+		fillColor:  <Color function or basic function (e.g. L.HSLHueFunction)>,
+		...
+	},
+	<reference to data property 2>: {
+		displayName: ...,
+		displayText: ...,
+		...
+	},
+	...
+	<reference to data property X>: {
+		displayName: ...,
+		displayText: ...,
+		...
+	}
+}
+```
+
+### ChartDataLayers
+
+> Display data values using ChartMarker instances (inherits from L.DataLayer)
+
+#### Usage
+`L.BarChartDataLayer(<Object> data, <ChartDataLayer options> options?);`
+`L.RadialBarChartDataLayer(<Object> data, <ChartDataLayer options> options?);`
+`L.PieChartDataLayer(<Object> data, <ChartDataLayer options> options?);`
+`L.CoxcombChartDataLayer(<Object> data, <ChartDataLayer options> options?);`
+`L.StackedRegularPolygonDataLayer(<Object> data, <ChartDataLayer options> options?);`
+
+#### Options
+Option | Type | Default | Description
+--- | --- | --- | ---
+
+### L.ChoroplethDataLayer
+
+> Display data values using dynamically styled points, lines, and polygons (inherits from L.DataLayer)
+
+#### Usage
+`L.ChoroplethDataLayer(<Object> data, <DataLayer options> options?);`
+
+#### Options
+Option | Type | Default | Description
+--- | --- | --- | ---
+
+### L.MarkerDataLayer
+
+> Display data values using markers based on L.Icon or L.DivIcon icons (inherits from L.DataLayer)
+
+#### Usage
+`L.MarkerDataLayer(<Object> data, <MarkerDataLayer options> options?);`
+
+#### Options
+Option | Type | Default | Description
+--- | --- | --- | ---
+
+## Legends
+
+> Useful for visually informing users about the dynamic styles associated with your L.DataLayer instances
+
+### L.Control.Legend
+
+> Add this control to your map to automatically display a dynamic legend for any L.DataLayer based instance that you add to your map
+
+```javascript
+var legendControl = new L.Control.Legend();
+
+legendControl.addTo(map);
+```
+
+### L.DataLayer - *getLegend()*
+
+> Call *getLegend* on any L.DataLayer instance to get an HTML element that can be added to your page
+
+#### Usage
+
+`layer.getLegend(<Legend options> options?);`
+
+```javascript
+var layer = new L.DataLayer(data, {...});
+
+layer.getLegend(); // Returns HTML
+```
+
+#### Options
+
+Option | Type | Default | Description
+--- | --- | --- | ---
+className | String | null | A class name that will be added to the legend element, useful for adding custom CSS styles
+numSegments | Number | 10 | The number of segments/bars to include in the legend element
+width | Number | 100 | The desired width of the legend element
