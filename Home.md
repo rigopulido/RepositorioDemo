@@ -44,3 +44,6 @@ Support for gradient fills and drop shadows.
 
 *NOTE:  The dist folder includes a minified version of the full framework as well as a minified version of the code required to use the new markers*
 *Use leaflet-dvf.markers.min.js if you want to use the new markers without the rest of the framework*
+
+[CloudMade]: http://www.cloudmade.com
+[Leaflet]: http://leafletjs.com
