@@ -1,0 +1,106 @@
+> Classes for mapping data properties to Leaflet style values
+
+### L.LinearFunction
+
+> Used to map a data property from one scale to another
+
+#### Usage
+`L.LinearFunction(<Number[]|Point> minPoint, <Number[]|Point> maxPoint, <LinearFunction options> options?);`
+
+```javascript
+// Map a data property that ranges from 0 to 100 to a value between 5 and 20 (e.g. marker radius)
+var linearFunction = new L.LinearFunction(new L.Point(0, 5), new L.Point(100, 20));
+
+// OR - In addition to L.Point objects, you can also use arrays
+var linearFunction = new L.LinearFunction([0, 5], [100, 20]);
+
+console.log(linearFunction.evaluate(10));  // prints 6.5
+```
+
+#### Options
+Option | Type | Default | Description
+--- | --- | --- | ---
+preProcess | Function | null | A function for pre-processing an input value 
+postProcess | Function | null | A function for post-processing an output value
+
+#### Key Methods
+Method | Usage | Description
+--- | --- | ---
+evaluate | `linearFunction.evaluate(<value>);` | Interpolates an output value based on the passed in input value
+
+### Color Functions 
+
+> Used to map a data property to a color.  The framework includes tools for mapping color using Hue, Saturation, and Lightness/Luminosity (HSL) or Red, Green, Blue (RGB) color.  See the [Colors](http://humangeo.github.com/leaflet-dvf/examples/html/colors.html) example.
+
+#### Usage
+
+> Change the output hue dynamically based on the input data property  
+> *Useful for producing colors along a rainbow scale (or subset)*
+`L.HSLHueFunction(<Number[]|Point> minPoint, <Number[]|Point> maxPoint, <HSL options> options?);`
+
+> Change the output saturation dynamically based on the input data property  
+> *Useful for varying between a color and gray*
+`L.HSLSaturationFunction(<Number[]|Point> minPoint, <Number[]|Point> maxPoint, <HSL options> options?);`
+
+> Change the output luminosity dynamically based on the input data property  
+> *Useful for varying between a color and white*
+`L.HSLLuminosityFunction(<Number[]|Point> minPoint, <Number[]|Point> maxPoint, <HSL options> options?);`
+
+> Change the output red value dynamically based on the input data property
+`L.RGBRedFunction(<Number[]|Point> minPoint, <Number[]|Point> maxPoint, <RGB options> options?);`
+
+> Change the output blue value dynamically based on the input data property
+`L.RGBBlueFunction(<Number[]|Point> minPoint, <Number[]|Point> maxPoint, <RGB options> options?);`
+
+> Change the output green value dynamically based on the input data property
+`L.RGBGreenFunction(<Number[]|Point> minPoint, <Number[]|Point> maxPoint, <RGB options> options?);`
+
+> Vary the output color dynamically between two RGB colors
+`L.RGBColorBlendFunction(<Number> minX, <Number>> maxX, <RGB array> minColor, <RGB array> maxColor);`
+
+```javascript
+// Map a data property that ranges from 0 to 100 to a color between green (hue of 120) and red (hue of 0)
+var colorFunction = new L.HSLHueFunction(new L.Point(0, 120), new L.Point(100, 20));
+
+colorFunction.evaluate(10); // prints 'hsl(110.00, 100%, 50%)'
+```
+
+#### Options
+
+##### HSL Options
+Option | Type | Default | Description
+--- | --- | --- | ---
+outputHue | Number | 0 | The desired output hue *NOTE: use with L.HSLSaturationFunction and L.HSLLuminosityFunction*
+outputSaturation | String | '100%' | The desired output saturation *NOTE: use with L.HSLHueFunction and L.HSLLuminosityFunction*
+outputLuminosity | String | '50%' | The desired width of the legend element *NOTE: use with L.HSLHueFunction and L.HSLSaturationFunction*
+
+##### RGB Options
+Option | Type | Default | Description
+--- | --- | --- | ---
+outputRed | Number (0..255) | null | The desired output red value *NOTE: use with L.RGBGreenFunction and L.RGBBlueFunction*
+outputGreen | Number | (0..255) | The desired output green value *NOTE: use with L.RGBRedFunction and L.RGBBlueFunction*
+outputBlue | Number | (0..255) | The desired output blue value *NOTE: use with L.RGBRedFunction and L.RGBGreenFunction*
+
+### L.PiecewiseFunction
+
+> Used to combine L.LinearFunction instances for cases where one instance won't suffice
+
+#### Usage
+`L.PiecewiseFunction(<LinearFunction[]> functions, <LinearFunction options> options?);`
+
+```javascript
+// Map a data property that ranges from 0 to 100 to a color that ranges from white to yellow, yellow to red
+// To vary a color between white and that color, use an HSLLuminosityFunction.  In this case we'll vary
+// the color from white to yellow until the value reaches 50
+var whiteToYellow = new L.HSLLuminosityFunction(new L.Point(0, 1), new L.Point(50, 0.5), {
+	outputHue: 60
+});
+
+// We'll then vary the color from yellow to red from 50 to 100
+var yellowToRed = new L.HSLHueFunction(new L.Point(50, 60), new L.Point(100, 0));
+
+// Create a new PiecewiseFunction and use this as you would any other LinearFunction
+var colorFunction = new L.PiecewiseFunction([whiteToYellow, yellowToRed]);
+
+...
+```
