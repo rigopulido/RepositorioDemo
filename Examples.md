@@ -1,6 +1,6 @@
-![Markers](http://humangeo.github.com/leaflet-dvf/images/markers.png "Markers")
-![Election Mapping](http://humangeo.github.com/leaflet-dvf/images/electionmapping.png "Election Mapping")
-![Country Data](http://humangeo.github.com/leaflet-dvf/images/countrydata.png "Country Data")
+![Markers](http://humangeo.github.io/leaflet-dvf/images/markers.png "Markers")
+![Election Mapping](http://humangeo.github.io/leaflet-dvf/images/electionmapping.png "Election Mapping")
+![Country Data](http://humangeo.github.io/leaflet-dvf/images/countrydata.png "Country Data")
 
 New Marker Types:
 * [Markers](http://humangeo.github.com/leaflet-dvf/examples/html/markers.html)
