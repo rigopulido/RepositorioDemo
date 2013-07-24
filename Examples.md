@@ -21,4 +21,7 @@ Mix:
 * [2008 Election Results](http://humangeo.github.com/leaflet-dvf/examples/html/uselectiondata.html)
 * [Netherlands Population by ZIP 2](http://humangeo.github.com/leaflet-dvf/examples/html/nlzip.html) ** Thanks to Steven De Schrijver of [Conundra](http://www.conundra.eu) for providing the example use case **
 
+Photos:
+* [Panoramio Layer](http://humangeo.github.com/leaflet-dvf/examples/html/panoramio.html)
+
 Tutorials coming soon to [HumanGeo](http://www.thehumangeo.com/)'s [blog](http://blog.thehumangeo.com)
