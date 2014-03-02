@@ -1,4 +1,4 @@
-The Leaflet DVF is an extension to [CloudMade][]'s [Leaflet][] JavaScript mapping library.
+The Leaflet DVF is an extension to the [Leaflet][http://www.leafletjs.com] JavaScript mapping library.
 The primary goal of the framework is to simplify data visualization and thematic mapping.
 
 It includes:
