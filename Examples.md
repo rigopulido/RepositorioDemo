@@ -1,14 +1,17 @@
-![Markers](http://humangeo.github.io/leaflet-dvf/images/markers.png "Markers")
-![Election Mapping](http://humangeo.github.io/leaflet-dvf/images/electionmapping.png "Election Mapping")
-![Country Data](http://humangeo.github.io/leaflet-dvf/images/countrydata.png "Country Data")
+![Overview](http://humangeo.github.com/leaflet-dvf/images/overview.png "Overview")
+![Election Mapping](http://humangeo.github.com/leaflet-dvf/images/electionmapping.png "Election Mapping")
+![Country Data](http://humangeo.github.com/leaflet-dvf/images/countrydata.png "Country Data")
+
+*NOTE:  Most of these examples have multiple layers; use the layers control to see all of the layers*
 
 New Marker Types:
 * [Markers](http://humangeo.github.com/leaflet-dvf/examples/html/markers.html)
 
 Proportional Symbol:
 * [USGS Earthquakes](http://humangeo.github.com/leaflet-dvf/examples/html/earthquakes.html)
-* [Meetup Finder](http://humangeo.github.com/leaflet-dvf/examples/html/meetups.html) - zoom to an area of interest, put in a Meetup topic, and click the search button
+* [Meetup Finder](http://humangeo.github.com/leaflet-dvf/examples/html/meetups.html) *Zoom to an area of interest, put in a Meetup topic, and click the search button*
 * [Weather](http://humangeo.github.com/leaflet-dvf/examples/html/weather.html)
+* [Sochi Medal Count](http://humangeo.github.com/leaflet-dvf/examples/html/sochistats.html)
 
 Choropleth Mapping:
 * [Color Functions](http://humangeo.github.com/leaflet-dvf/examples/html/colors.html)
@@ -16,12 +19,19 @@ Choropleth Mapping:
 
 Mix:
 * [WorldBank and UN Data](http://humangeo.github.com/leaflet-dvf/examples/html/incomelevels.html)
-* [Election 2012 Polling](http://humangeo.github.com/leaflet-dvf/examples/html/election2012.html)
+* [Election 2012 Polling](http://humangeo.github.com/leaflet-dvf/examples/html/election2012.html) *Illustrates sizing pie charts by a data value*
 * [2008 vs 2012 Election Results](http://humangeo.github.com/leaflet-dvf/examples/html/election2012results.html)
 * [2008 Election Results](http://humangeo.github.com/leaflet-dvf/examples/html/uselectiondata.html)
-* [Netherlands Population by ZIP 2](http://humangeo.github.com/leaflet-dvf/examples/html/nlzip.html) ** Thanks to Steven De Schrijver of [Conundra](http://www.conundra.eu) for providing the example use case **
+* [Netherlands Population by ZIP 2](http://humangeo.github.com/leaflet-dvf/examples/html/nlzip.html) **Thanks to Steven De Schrijver of [Conundra](http://www.conundra.eu) for providing the example use case**
 
-Photos:
-* [Panoramio Layer](http://humangeo.github.com/leaflet-dvf/examples/html/panoramio.html)
+Images:
+* [Panoramio Browser](http://humangeo.github.com/leaflet-dvf/examples/html/panoramio.html) *NOTE:  This is a work in progress but is mostly complete*
 
-Tutorials coming soon to [HumanGeo](http://www.thehumangeo.com/)'s [blog](http://blog.thehumangeo.com)
+Lines:
+* [Napoleon's March](http://humangeo.github.com/leaflet-dvf/examples/html/minard.html) *Yet another variation of Charle's Minard's famous visualization that illustrates the use of the FlowLine class*
+* [US Airports and Flight Data](http://humangeo.github.com/leaflet-dvf/examples/html/airports.html) *Illustrates using the L.Graph class for visualizing flights between airports*
+
+In Progress:
+* [Sparklines](http://humangeo.github.com/leaflet-dvf/examples/html/sparklines.html) *NOTE:  This is a work in progress.  The code is incomplete and can be found in src/leaflet.dvf.experimental.js*
+* [Run Map](http://humangeo.github.com/leaflet-dvf/examples/html/runmap.html) *NOTE:  This is a work in progress.  Illustrates using a WeightedPolyline to show variations in GPS data*
+* [US County Statistics](http://humangeo.github.com/leaflet-dvf/examples/html/countystats.html)
