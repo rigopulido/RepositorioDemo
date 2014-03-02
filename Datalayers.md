@@ -1,8 +1,8 @@
-> Datalayers support loading and displaying data from any JSON-based object/collection regardless of structure
+> Support loading and displaying data from any JSON-based object/collection
 
 ### L.DataLayer
 
-> Display data values using L.RegularPolygonMarker instances.  In thematic mapping, this class displays data using proportional symbols.  
+> Display data values using L.RegularPolygonMarker instances.  To override the default marker behavior, use the getMarker option or inherit from DataLayer and override _getMarker.  In thematic mapping, this class displays data using proportional symbols.
 >
 > *NOTE:  If the location features are lines/polygons (e.g. GeoJSON), this class will use the centroid of each line/polygon to place each marker.  When dealing with line/polygon features, you must include a reference to the [JavaScript Topology Suite (JSTS) JS files](https://github.com/bjornharrtell/jsts/tree/master/lib).  These files are used to calculate centroids.  If these files are not included, the DataLayer class will fallback to using the center of the bounds of the layer's geometry.*
 
@@ -13,7 +13,7 @@
 Option | Type | Default | Description
 --- | --- | --- | ---
 recordsField | String | 'features' | A pointer to the field in the input data that contains the records to be visualized.  Use null when the data being passed in is the set of records to be visualized.  Use dot notation to specify child properties (e.g. data.election.resultsByState), see note below.
-locationMode | String | 'latlng' OR L.LocationModes.LATLNG | The mode used to determine a location for each record.  Use a string or the *L.LocationModes* constant values 
+locationMode | String | 'latlng' OR L.LocationModes.LATLNG | The mode used to determine a location for each record.  Use a string or the *L.LocationModes* constant values
 latitudeField | String | 'coordinates.1' | The property of each record that contains the latitude *NOTE: Use with 'latlng' locationMode*
 longitudeField | String | 'coordinates.0' | The property of each record that contains the longitude *NOTE: Use with 'latlng' locationMode*
 codeField | String | null | The property of each record that contains the code used to lookup a location *NOTE: Use with 'state', 'country', or 'lookup' locationMode values*
@@ -21,11 +21,14 @@ geohashField | String | null | The property of each record that contains the geo
 layerOptions | Object | null | Default style - An object containing Leaflet L.Path style properties that will be used as the default style for DataLayer markers/polygons.  These properties will be overridden by the displayOptions.
 displayOptions | Object | null | Dynamic styles - An object containing pointers to one or property values of each record with associated L.Path style properties and LinearFunction objects
 tooltipOptions | Object | null | Options used to configure the tooltips that are displayed on mouseover (iconSize and iconAnchor)
-onEachRecord | Function | null | A function that performs additional operations (e.g. binding a popup) on a created layer based on the record associated with that layer (similar to the L.GeoJSON onEachFeature method
-includeLayer | Function | null | A function for determining whether or not the layer for a given record should be added to the map.
+onEachRecord | Function | null | A function that performs additional operations (e.g. binding a popup) on a created layer based on the record associated with that layer (similar to the L.GeoJSON onEachFeature method).  Note that the parameter ordering is: layer, record.  This is slightly different from the L.GeoJSON onEachFeature method, where the ordering is:  featureData, layer.
+includeLayer OR filter | Function | null | A function for determining whether or not the layer for a given record should be added to the map.
 getLocation | Function | null | A function for getting a custom location from a record (e.g. looking up an address) *NOTE: Use with 'custom' locationMode value*
 locationLookup | Object (GeoJSON FeatureCollection) | null | A GeoJSON FeatureCollection that will be used to lookup the location associated with a given record. This is useful when you have some data that maps to political/statistical boundaries other than US states or countries.  *NOTE: Use with 'lookup locationMode*
+locationIndexField | String | null | A string identifying the field that will be used to index GeoJSON Feature objects when the locationMode is L.LocationModes.LOOKUP.  If you don't specify this field, the DataLayer will use the codeField value as the property to use when indexing GeoJSON Features
 includeBoundary | Boolean | null | true/false - whether or not the boundary polygon should be displayed when displaying proportional symbols.  This is useful for identifying the boundary associated with each symbol.
+boundaryStyle | Object | null | Path style options used for specifying how the boundary associated with the point will be displayed
+getMarker | Function | null | A function for overriding the default marker that gets placed at each location.  The function takes a latlng and options as parameters.
 
 #### Referencing Data Properties
 
@@ -123,9 +126,14 @@ You might specify the following options:
 Option | Type | Default | Description
 --- | --- | --- | ---
 
+> NOTE:  You can use the displayOptions option to size ChartMarker instances dynamically by some property of each record.  See the DataLayer options above for more information about displayOptions.
+
 ### L.ChoroplethDataLayer
 
 > Display data values using dynamically styled points, lines, and polygons (inherits from L.DataLayer)
+
+<img alt="Choropleth Data Layer" src="http://humangeo.github.com/leaflet-dvf/images/choropleth.png"/>
+<img alt="Choropleth Data Layer" src="http://humangeo.github.com/leaflet-dvf/images/choropleth1.png"/>
 
 #### Usage
 `L.ChoroplethDataLayer(<Object> data, <DataLayer options> options?);`
@@ -144,6 +152,25 @@ Option | Type | Default | Description
 #### Options
 Option | Type | Default | Description
 --- | --- | --- | ---
+
+### L.PanoramioLayer
+
+> Display Panoramio images on the map.  Shows the top 50 most popular images for the current map view.
+> NOTE:  Requires [Moment.js](http://momentjs.com)
+> Check out [Panoramio Browser](http://humangeo.github.com/leaflet-dvf/examples/html/panoramio.html) for an example of using this layer.
+<img alt="Panoramio Layer" src="http://humangeo.github.com/leaflet-dvf/images/panoramiolayer.png"/>
+
+#### Usage
+`L.PanoramioLayer(<PanoramioLayer options> options?);`
+
+#### Options (in addition to the *L.DataLayer* style options)
+Option | Type | Default | Description
+--- | --- | --- | ---
+photoSet | String | public | The Panoramio API photo set to use for retrieving images.  Can be one of 'public' - the most popular photos, 'full' - all photos, or a specific author id
+updateInterval | Number | 300000 | The number of milliseconds to wait before updating the current view
+size | String | square | The marker image size ("square" or "mini_square")
+refreshEvents | String | moveend | The Leaflet events that will trigger a refresh of photos (separate with spaces)
+onEachPhoto | Function | null | A function that will be called for each photo in the collection of retrieved photos.  This is similar to the onEachRecord function of a DataLayer.
 
 ## Legends
 
