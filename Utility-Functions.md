@@ -20,7 +20,7 @@ console.log(linearFunction.evaluate(10));  // prints 6.5
 #### Options
 Option | Type | Default | Description
 --- | --- | --- | ---
-preProcess | Function | null | A function for pre-processing an input value 
+preProcess | Function | null | A function for pre-processing an input value
 postProcess | Function | null | A function for post-processing an output value
 
 #### Key Methods
@@ -28,21 +28,21 @@ Method | Usage | Description
 --- | --- | ---
 evaluate | `linearFunction.evaluate(<value>);` | Interpolates an output value based on the passed in input value
 
-### Color Functions 
+### Color Functions
 
 > Used to map a data property to a color.  The framework includes tools for mapping color using Hue, Saturation, and Lightness/Luminosity (HSL) or Red, Green, Blue (RGB) color.  See the [Colors](http://humangeo.github.com/leaflet-dvf/examples/html/colors.html) example.
 
 #### Usage
 
-> Change the output hue dynamically based on the input data property  
+> Change the output hue dynamically based on the input data property
 > *Useful for producing colors along a rainbow scale (or subset)*
 `L.HSLHueFunction(<Number[]|Point> minPoint, <Number[]|Point> maxPoint, <HSL options> options?);`
 
-> Change the output saturation dynamically based on the input data property  
+> Change the output saturation dynamically based on the input data property
 > *Useful for varying between a color and gray*
 `L.HSLSaturationFunction(<Number[]|Point> minPoint, <Number[]|Point> maxPoint, <HSL options> options?);`
 
-> Change the output luminosity dynamically based on the input data property  
+> Change the output luminosity dynamically based on the input data property
 > *Useful for varying between a color and white*
 `L.HSLLuminosityFunction(<Number[]|Point> minPoint, <Number[]|Point> maxPoint, <HSL options> options?);`
 
