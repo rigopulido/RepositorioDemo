@@ -4,6 +4,8 @@
 
 > Creates an SVG-based map marker, similar to the default Leaflet image-based marker but fully customizable using the basic L.Path properties
 
+<img alt="Map Marker" src="http://humangeo.github.com/leaflet-dvf/images/mapmarker.png"/>
+
 #### Usage
 `L.MapMarker(<LatLng> LatLng, <Marker options> options?);`
 
@@ -24,12 +26,13 @@ numberOfSides | Number | 3 | If an inner radius is specified, then the marker wi
 rotation | Number | 0 | If an inner radius is specified, this controls the rotation of the hole in the center.
 radius OR radiusX, radiusY | Number | 10 | The radius of the circular part of the marker, also adjusts the height of the marker
 innerRadius OR innerRadiusX, innerRadiusY | Number | null | The inner radius of the marker hole in pixels.
+imageCircleUrl | String | null | The URL of an image to display on the marker.  This will be displayed in the main circular area of the marker.
 
 ### L.RegularPolygonMarker
 
-<img alt="Bar Chart Marker" src="http://humangeo.github.com/leaflet-dvf/images/regularpolygonmarkers.png" width="290" height="72" style="width: 290px; height: 72px;"/>
-
 > Creates an N-sided marker
+
+<img alt="Regular Polygons" src="http://humangeo.github.io/leaflet-dvf/images/regularpolygon.png"/>
 
 #### Usage
 `L.RegularPolygonMarker(<LatLng> LatLng, <Marker options> options?);`
@@ -51,12 +54,13 @@ Option | Type | Default | Description
 --- | --- | --- | ---
 numberOfSides | Number | 3 | The number of sides the marker should have
 rotation | Number | 0.0 | The angle in degrees that the marker should be rotated
-radius OR radiusX, radiusY | Number | 10 | The radius of the marker in pixels 
+radius OR radiusX, radiusY | Number | 10 | The radius of the marker in pixels
 innerRadius OR innerRadiusX, innerRadiusY | Number | null | The inner radius of the marker in pixels.  Specifying an innerRadius will produce a regular polygon with a hole in the middle.
+imageCircleUrl | String | null | The URL of an image to display on the marker.  This will be displayed in the main circular area of the marker.
 
 ### L.StarMarker
 
-<img alt="Star Marker" src="http://humangeo.github.com/leaflet-dvf/images/stars.png" width="83" height="87" style="width: 83px; height: 87px;"/>
+<img alt="Star Marker" src="http://humangeo.github.com/leaflet-dvf/images/stars.png"/>
 
 > Creates a star-shaped marker with N-points
 
@@ -70,7 +74,7 @@ numberOfPoints | Number | 5 | The number of points the star should have
 
 ### ChartMarkers
 
-<img alt="Bar Chart Marker" src="http://humangeo.github.com/leaflet-dvf/images/barchartmarker.png" width="83" height="87" style="width: 83px; height: 87px;"/><img alt="Radial Bar Chart Marker" src="http://humangeo.github.com/leaflet-dvf/images/radialbarchartmarker.png" width="83" height="87" style="width: 83px; height: 87px;"/><img alt="Pie Chart Marker" src="http://humangeo.github.com/leaflet-dvf/images/piechartmarker.png" width="83" height="87" style="width: 83px; height: 87px;"/><img alt="Coxcomb Chart Marker" src="http://humangeo.github.com/leaflet-dvf/images/coxcombchartmarker.png" width="83" height="87" style="width: 83px; height: 87px;"/><img alt="Stacked Regular Polygon Marker" src="http://humangeo.github.com/leaflet-dvf/images/stackedregularpolygon.png" width="83" height="87" style="width: 83px; height: 87px;"/><img alt="Radial Meter Marker" src="http://humangeo.github.com/leaflet-dvf/images/radialmetermarker.png" width="83" height="87" style="width: 83px; height: 87px;"/>
+<img alt="Bar Chart Marker" src="http://humangeo.github.com/leaflet-dvf/images/barchartmarker.png"/><img alt="Radial Bar Chart Marker" src="http://humangeo.github.com/leaflet-dvf/images/radialbarchartmarker.png"/><img alt="Pie Chart Marker" src="http://humangeo.github.com/leaflet-dvf/images/piechartmarker.png"/><img alt="Coxcomb Chart Marker" src="http://humangeo.github.com/leaflet-dvf/images/coxcombchartmarker.png"/><img alt="Stacked Regular Polygon Marker" src="http://humangeo.github.com/leaflet-dvf/images/stackedregularpolygon.png"/><img alt="Radial Meter Marker" src="http://humangeo.github.com/leaflet-dvf/images/radialmetermarker.png"/>
 
 > Display dynamic charts (bar chart, radial bar chart, pie chart, coxcomb chart, etc.) as markers
 
@@ -140,5 +144,44 @@ var barChartMarker = new L.BarChartMarker(new L.LatLng(0, 0), options);
 
 Option | Type | Default | Description
 --- | --- | --- | ---
-data | Object | null | A set of key/value pairs that provides a data value for each property displayed by the marker 
+data | Object | null | A set of key/value pairs that provides a data value for each property displayed by the marker
 chartOptions | Object | null | A set of key/value pairs that defines the options associated with each data property displayed by the marker.
+backgroundStyle (L.RadialMeterMarker) | Object | L.Path object with a semi-transparent gray fill and stroke | An object of L.Path style options that will be used to style the background area of the chart.  Set this to null or false to prevent a background from being displayed.
+
+### L.Callout
+
+> Used for annotating markers, lines, and polygons.  Callouts include a line and associated icon (L.Icon or L.DivIcon).
+
+#### Usage
+`L.Callout(<LatLng> latlng, <Callout options> options?);`
+
+```javascript
+var callout = new L.Callout(new L.LatLng(0.0, 0.0), {
+	arrow: true,
+	numberOfSides: 3,
+	radius: 8,
+	icon: new L.DivIcon(...),
+	direction: L.CalloutLine.DIRECTION.NE,
+	lineStyle: L.CalloutLine.LINESTYLE.ARC,
+	size: new L.Point(50, 50),
+	weight: 2,
+	fillOpacity: 1.0,
+	color: '#FFFFFF',
+	fillColor: '#FFFFFF'
+});
+
+map.addLayer(callout);
+```
+
+#### Options (in addition to L.Path style options)
+Option | Type | Default | Description
+--- | --- | --- | ---
+arrow | Boolean | true | true/false - whether or not an arrow should be added to the end of the callout line
+numberOfSides | Number | 3 | The number of sides the arrow at the end of the callout line will have.
+radius | Number | 6 | The radius of the arrow that will be displayed at the end of the callout line
+icon | Object| null | An L.Icon or L.DivIcon object that will be displayed at the end of the callout line
+direction | String | 'ne' | The quadrant in which the callout will be placed: 'ne', 'se', 'sw', 'nw'.  Use L.CalloutLine.DIRECTION properties (NE, SE, SW, NW) to specify this
+lineStyle | String | 'angle' | The style of the associated callout line: 'arc', 'angle', 'straight'.  Use L.CalloutLine.LINESTYLE properties (ARC, ANGLE, STRAIGHT) to specify this.  'arc' displays a curved line, 'angle' displays an angled line, and 'straight' displays a straight line from the annotation point to the associated icon.
+size | Object | L.Point(60, 30) | The bounds of the callout line
+
+Include L.Path options to style the callout line associated with the callout object (e.g. color, fillColor, weight, etc.)
